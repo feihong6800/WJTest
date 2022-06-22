@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+    <TextView
+        android:id="@+id/ar_registerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="40dp"
+        android:text="Register"
+        android:textColor="@color/blackgrey"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ar_registerBg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ar_registerTitle"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/ar_etName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Full Name"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/ar_registerBg"
+        app:layout_constraintStart_toStartOf="@+id/ar_registerBg"
+        app:layout_constraintTop_toTopOf="@+id/ar_registerBg" />
+
+
+    <EditText
+        android:id="@+id/ar_etEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/ar_etName"
+        app:layout_constraintStart_toStartOf="@+id/ar_etName"
+        app:layout_constraintTop_toBottomOf="@+id/ar_etName" />
+
+    <RadioGroup
+        android:id="@+id/ar_rgGender"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/ar_etEmail"
+        app:layout_constraintStart_toStartOf="@+id/ar_etEmail"
+        app:layout_constraintTop_toBottomOf="@+id/ar_etEmail">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender: "
+            android:textColor="@color/blackgrey"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/ar_rbMale"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Male"
+            android:onClick="rbGender_clicked"/>
+
+        <RadioButton
+            android:id="@+id/ar_rbFemale"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Female"
+            android:onClick="rbGender_clicked"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Date of Birth: "
+        android:textColor="@color/blackgrey"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/ar_rgGender"
+        app:layout_constraintTop_toBottomOf="@+id/ar_rgGender" />
+
+    <TextView
+        android:id="@+id/ar_tvBirthDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Click to select"
+        android:onClick="tvBirthDate_clicked"
+        android:textColor="@color/darkgreen"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/ar_etContact"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Contact"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/ar_rgGender"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/ar_etPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/ar_etContact"
+        app:layout_constraintStart_toStartOf="@+id/ar_etContact"
+        app:layout_constraintTop_toBottomOf="@+id/ar_etContact" />
+
+    <EditText
+        android:id="@+id/ar_etConfirmPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/ar_etPassword"
+        app:layout_constraintStart_toStartOf="@+id/ar_etPassword"
+        app:layout_constraintTop_toBottomOf="@+id/ar_etPassword" />
+
+    <TextView
+        android:id="@+id/ar_tvHaveAcc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Already have an account?"
+        app:layout_constraintEnd_toStartOf="@+id/ar_tvLogin"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/ar_btnRegister"
+        app:layout_constraintTop_toBottomOf="@+id/ar_btnRegister" />
+
+    <TextView
+        android:id="@+id/ar_tvLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="Login Here"
+        android:textColor="@color/darkgreen"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ar_tvHaveAcc"
+        app:layout_constraintEnd_toEndOf="@+id/ar_btnRegister"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ar_tvHaveAcc"
+        app:layout_constraintTop_toTopOf="@+id/ar_tvHaveAcc" />
+
+    <Button
+        android:id="@+id/ar_btnRegister"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Register"
+        app:layout_constraintEnd_toEndOf="@+id/ar_etConfirmPassword"
+        app:layout_constraintStart_toStartOf="@+id/ar_etConfirmPassword"
+        app:layout_constraintTop_toBottomOf="@+id/ar_etConfirmPassword" />
+
+    <ProgressBar
+        android:id="@+id/ar_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

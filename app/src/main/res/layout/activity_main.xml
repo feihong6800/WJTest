@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/add_record_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/darkgreen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Record"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/aa_AddRecordBg"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="50dp"
+        app:cardCornerRadius="10dp"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_record_toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/aar_tvInstructions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:text="Select the options below:"
+                android:textColor="@color/darkgreen"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/aar_tvActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="20dp"
+                android:text="Activity:"
+                android:textColor="@color/blackgrey"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_below="@id/aar_tvInstructions"/>
+
+            <Spinner
+                android:id="@+id/aar_spiActivity"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/aar_tvActivity"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/btn_custom"
+                android:backgroundTint="@color/lightgrey" />
+
+            <TextView
+                android:id="@+id/aar_tvMinutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minutes:"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/blackgrey"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_below="@id/aar_spiActivity"/>
+
+            <Spinner
+                android:id="@+id/aar_spiMinutes"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/aar_tvMinutes"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/btn_custom"
+                android:backgroundTint="@color/lightgrey" />
+
+            <TextView
+                android:id="@+id/aar_tvTips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The calories will be counted automatically."
+                android:textColor="@color/mildgrey"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="15sp"
+                android:layout_below="@id/aar_spiMinutes"/>
+
+            <Button
+                android:id="@+id/add_record_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/btn_custom"
+                android:backgroundTint="@color/greenbutton"
+                android:text="Add" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

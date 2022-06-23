@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     String calories;
     String points;
     FirebaseAuth mAuth;
-    private DatabaseReference activityRef;
+    private DatabaseReference activityRef, pointRef;
     private ProgressDialog progressDialog;
     String recordID;
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+        String timeStamp = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
         recordID = UUID.randomUUID().toString();
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getCurrentUser().getUid();
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_left_white_24));
         progressDialog = new ProgressDialog(MainActivity.this);
+
         List<String> activity_category = new ArrayList<String>();
         activity_category.add("Please Select");
         activity_category.add("Running");
@@ -298,11 +300,32 @@ public class MainActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
 
                                         if (task.isSuccessful()) {
-                                            progressDialog.dismiss();
-                                            Toast.makeText(getApplicationContext(), "Reload Complete", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            startActivity(intent);
+                                            pointRef = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+                                            pointRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    progressDialog.dismiss();
+                                                    String balance_points = snapshot.child("points").getValue().toString();
+                                                    int balance = Integer. parseInt(balance_points);
+                                                    int add_points = Integer. parseInt(points);
+                                                    int total_balance = balance + add_points;
+                                                    String total_PointBalance = String.valueOf(total_balance);
+
+                                                    HashMap<String, Object> fromupdates = new HashMap<>();
+                                                    fromupdates.put("points", total_PointBalance);
+                                                    pointRef.updateChildren(fromupdates);
+
+                                                    Toast.makeText(getApplicationContext(), "Add Record Complete", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(intent);
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
 
 
                                         } else {

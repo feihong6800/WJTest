@@ -17,21 +17,24 @@ import com.example.wjtest.Model.RecordInfo;
 import com.example.wjtest.ViewHolder.RecordViewHolder;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.ValueEventListener;
 
 public class RecordActivity extends AppCompatActivity {
 
     private Button btn_add_record;
     private String userID;
-    private TextView tv_empty;
+    private TextView tv_empty, balance_points;
     private FirebaseAuth mAuth;
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    private DatabaseReference recordRef;
+    private DatabaseReference recordRef, pointRef;
     private Query query;
 
     @Override
@@ -44,9 +47,24 @@ public class RecordActivity extends AppCompatActivity {
         btn_add_record = (Button) findViewById(R.id.btn_add_history);
         tv_empty = (TextView) findViewById(R.id.tv_record_empty);
         recyclerView = findViewById(R.id.record_recyclerView);
+        balance_points = (TextView) findViewById(R.id.aa_tvPoint);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
+
+        pointRef = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+        pointRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String point = snapshot.child("points").getValue().toString();
+                balance_points.setText(point);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         btn_add_record.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +91,9 @@ public class RecordActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull RecordViewHolder holder, int i, @NonNull final RecordInfo model) {
                 holder.date.setText(model.getDate());
                 holder.activity.setText(model.getActivity());
-                holder.calories.setText(model.getCalories());
+                holder.calories.setText(model.getCalories() + " Calories");
                 holder.points.setText(model.getPoints());
+                holder.minutes.setText(model.getMinutes() + " Minutes");
 
                 String id = getSnapshots().getSnapshot(i).getKey();
 

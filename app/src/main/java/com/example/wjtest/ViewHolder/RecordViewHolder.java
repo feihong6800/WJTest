@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 
 public class RecordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView date, calories, points, activity;
+    public TextView date, calories, points, activity, minutes;
     public ItemClickListner listner;
 
     public RecordViewHolder(@Nullable View itemView){
@@ -22,6 +22,8 @@ public class RecordViewHolder extends RecyclerView.ViewHolder implements View.On
         calories = (TextView) itemView.findViewById(R.id.tv_record_calories);
         points = (TextView) itemView.findViewById(R.id.tv_record_points);
         activity = (TextView) itemView.findViewById(R.id.tv_record_activity);
+        minutes = (TextView) itemView.findViewById(R.id.tv_record_min);
+
     }
 
     public void setItemClickListner(ItemClickListner listner)

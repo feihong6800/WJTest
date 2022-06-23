@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Spinner activity_Spinner, activity_min;
     private Button btn_add_rewards;
+    private ImageView btn_back_left;
     String activityCategory = "";
     String activityMin = "";
     String userID;
@@ -63,12 +65,15 @@ public class MainActivity extends AppCompatActivity {
         activity_Spinner = (Spinner) findViewById(R.id.aar_spiActivity);
         activity_min = (Spinner) findViewById(R.id.aar_spiMinutes);
         btn_add_rewards = (Button) findViewById(R.id.add_record_button);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_left_white_24));
+        btn_back_left = (ImageView) findViewById(R.id.addrecord_back);
         progressDialog = new ProgressDialog(MainActivity.this);
+
+        btn_back_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         List<String> activity_category = new ArrayList<String>();
         activity_category.add("Please Select");

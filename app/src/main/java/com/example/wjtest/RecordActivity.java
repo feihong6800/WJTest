@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class RecordActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     private DatabaseReference recordRef, pointRef;
     private Query query;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,21 +50,29 @@ public class RecordActivity extends AppCompatActivity {
         tv_empty = (TextView) findViewById(R.id.tv_record_empty);
         recyclerView = findViewById(R.id.record_recyclerView);
         balance_points = (TextView) findViewById(R.id.aa_tvPoint);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.record_swipeRefreshLayout);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        pointRef = FirebaseDatabase.getInstance().getReference("Users").child(userID);
-        pointRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String point = snapshot.child("points").getValue().toString();
-                balance_points.setText(point);
-            }
+            public void onRefresh() {
+                pointRef = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+                pointRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String point = snapshot.child("points").getValue().toString();
+                        balance_points.setText(point);
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
+                    }
+                });
+
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -83,6 +93,20 @@ public class RecordActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        pointRef = FirebaseDatabase.getInstance().getReference("Users").child(userID);
+        pointRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String point = snapshot.child("points").getValue().toString();
+                balance_points.setText(point);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         FirebaseRecyclerOptions<RecordInfo> options =  new FirebaseRecyclerOptions.Builder<RecordInfo>().setQuery(query, RecordInfo.class).build();
 

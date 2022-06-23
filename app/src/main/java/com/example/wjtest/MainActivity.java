@@ -287,8 +287,8 @@ public class MainActivity extends AppCompatActivity {
                             if (!(snapshot.child("Record").child(recordID).exists())) {
                                 HashMap<String, Object> userdataMap = new HashMap<>();
                                 userdataMap.put("userID", userID);
-                                userdataMap.put("Activity", activityCategory);
-                                userdataMap.put("Minutes", activityMin);
+                                userdataMap.put("activity", activityCategory);
+                                userdataMap.put("minutes", activityMin);
                                 userdataMap.put("date", timeStamp);
                                 userdataMap.put("calories", calories);
                                 userdataMap.put("points", points);

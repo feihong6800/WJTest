@@ -6,7 +6,10 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wjtest.Interface.ItemClickListner;
+import com.example.wjtest.Model.RecordInfo;
 import com.example.wjtest.R;
+
+import java.util.List;
 
 import javax.annotation.Nullable;
 

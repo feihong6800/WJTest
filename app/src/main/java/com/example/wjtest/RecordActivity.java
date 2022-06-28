@@ -13,8 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wjtest.Model.RecordInfo;
+import com.example.wjtest.Model.RecordList;
 import com.example.wjtest.ViewHolder.RecordViewHolder;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +29,9 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RecordActivity extends AppCompatActivity {
 
     private Button btn_add_record;
@@ -38,6 +43,8 @@ public class RecordActivity extends AppCompatActivity {
     private DatabaseReference recordRef, pointRef;
     private Query query;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private List<RecordList> listData;
+    private MyAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,7 @@ public class RecordActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
+        listData=new ArrayList<>();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -87,7 +95,6 @@ public class RecordActivity extends AppCompatActivity {
 
 //        recordRef = (DatabaseReference) FirebaseDatabase.getInstance().getReference("Record").orderByChild("Record").equalTo(userID);
         recordRef = FirebaseDatabase.getInstance().getReference("Record");
-        query = recordRef.orderByChild("userID").equalTo(userID);
     }
 
     @Override
@@ -108,31 +115,55 @@ public class RecordActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseRecyclerOptions<RecordInfo> options =  new FirebaseRecyclerOptions.Builder<RecordInfo>().setQuery(query, RecordInfo.class).build();
-
-        FirebaseRecyclerAdapter<RecordInfo, RecordViewHolder> adapter = new FirebaseRecyclerAdapter<RecordInfo, RecordViewHolder>(options) {
+        query = recordRef.orderByChild("userID").equalTo(userID);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            protected void onBindViewHolder(@NonNull RecordViewHolder holder, int i, @NonNull final RecordInfo model) {
-                holder.date.setText(model.getDate());
-                holder.activity.setText(model.getActivity());
-                holder.calories.setText(model.getCalories() + " Calories");
-                holder.points.setText(model.getPoints());
-                holder.minutes.setText(model.getMinutes() + " Minutes");
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()){
+                        RecordList l=npsnapshot.getValue(RecordList.class);
+                        listData.add(l);
+                    }
+                    adapter=new MyAdapter(listData);
+                    recyclerView.setAdapter(adapter);
+                    tv_empty.setVisibility(View.INVISIBLE);
 
-                String id = getSnapshots().getSnapshot(i).getKey();
 
+                }
             }
 
-            @NonNull
             @Override
-            public RecordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_list, parent, false);
-                RecordViewHolder holder = new RecordViewHolder(view);
-                tv_empty.setVisibility(View.INVISIBLE);
-                return holder;
+            public void onCancelled(DatabaseError databaseError) {
+
             }
-        };
-        recyclerView.setAdapter(adapter);
-        adapter.startListening();
+        });
+
+
+//        FirebaseRecyclerOptions<RecordInfo> options =  new FirebaseRecyclerOptions.Builder<RecordInfo>().setQuery(query, RecordInfo.class).build();
+//
+//        FirebaseRecyclerAdapter<RecordInfo, RecordViewHolder> adapter = new FirebaseRecyclerAdapter<RecordInfo, RecordViewHolder>(options) {
+//            @Override
+//            protected void onBindViewHolder(@NonNull RecordViewHolder holder, int i, @NonNull final RecordInfo model) {
+//                holder.date.setText(model.getDate());
+//                holder.activity.setText(model.getActivity());
+//                holder.calories.setText(model.getCalories() + " Calories");
+//                holder.points.setText(model.getPoints());
+//                holder.minutes.setText(model.getMinutes() + " Minutes");
+//
+//                String id = getSnapshots().getSnapshot(i).getKey();
+//
+//            }
+//
+//            @NonNull
+//            @Override
+//            public RecordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_list, parent, false);
+//                RecordViewHolder holder = new RecordViewHolder(view);
+//                tv_empty.setVisibility(View.INVISIBLE);
+//                return holder;
+//            }
+//        };
+//        recyclerView.setAdapter(adapter);
+//        adapter.startListening();
     }
 }

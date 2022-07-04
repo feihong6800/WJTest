@@ -34,7 +34,7 @@ import java.util.List;
 
 public class RecordActivity extends AppCompatActivity {
 
-    private Button btn_add_record;
+    private Button btn_add_record, btn_help_button;
     private String userID;
     private TextView tv_empty, balance_points;
     private FirebaseAuth mAuth;
@@ -54,6 +54,7 @@ public class RecordActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getCurrentUser().getUid();
         btn_add_record = (Button) findViewById(R.id.btn_add_history);
+        btn_help_button = (Button) findViewById(R.id.btn_help_button);
         tv_empty = (TextView) findViewById(R.id.tv_record_empty);
         recyclerView = findViewById(R.id.record_recyclerView);
         balance_points = (TextView) findViewById(R.id.aa_tvPoint);
@@ -62,6 +63,15 @@ public class RecordActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         listData=new ArrayList<>();
+
+        btn_help_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecordActivity.this, HelpsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
